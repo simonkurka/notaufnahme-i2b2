@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-PACKAGE=aktin-notaufnahme-i2b2
 VI2B2=1.7.12a
 VI2B2_WEBCLIENT=1.7.12a.0002
 VPOSTGRES_JDBC=42.2.8
 VWILDFLY=18.0.0.Final
 
-DBUILD=$1
+PACKAGE=$1
 VERSION=$2
+DBUILD=$3
 
 # Directory this script is located in + /resources
 DRESOURCES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/resources"
