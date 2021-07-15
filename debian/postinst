@@ -1,0 +1,52 @@
+#!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+
+# activate php-curl extension for apache2
+if [[ -n $(grep ";extension=curl" /etc/php/*/apache2/php.ini) ]]; then
+	echo -e "\e[1;33mPHP-curl für apache2 wird aktiviert.\e[0m"
+	sed -i 's/;extension=curl/extension=curl/' /etc/php/*/apache2/php.ini
+else
+	echo -e "\e[0;33mPHP-curl für apache2 wurde bereits aktiviert.\e[0m"
+fi
+a2enmod proxy_http
+a2enconf aktin-j2ee-reverse-proxy
+service apache2 reload
+
+# count databases with name i2b2
+local PSQL=""
+db_get $PACKAGE/db_local
+if [ "$RET" = "true" ]; then
+	PSQL="sudo -u postgres psql"
+else
+	db_get aktin-notaufnahme/db_host
+	local host="$RET"
+	db_get aktin-notaufnahme/db_port
+	local port="$RET"
+	db_get aktin-notaufnahme/db_user
+	local user="$RET"
+	db_get aktin-notaufnahme/db_pass
+	local pass="$RET"
+	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
+fi
+
+if  [[ $(eval "$PSQL -l" | grep "i2b2" | wc -l) == 0 ]]; then
+
+	# create database i2b2 and respective users
+	echo -e "\e[1;33mEine Datenbank mit Namen i2b2 und entsprechenden Usern wird erstellt.\e[0m"
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/i2b2_postgres_init.sql"
+
+	# build i2b2 data and load into database
+	echo -e "\e[1;33mDaten werden in die Datenbank i2b2 eingelesen.\e[0m"
+	eval "$PSQL -d i2b2 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/i2b2_db.sql"
+else
+	echo -e "\e[0;33mDie Installation der i2b2-Datenbank wurde bereits durchgeführt.\e[0m"
+fi
+
+id -u wildfly >/dev/null || adduser --system --group --disabled-login --home /var/lib/wildfly wildfly
+chown -R wildfly:wildfly /opt/wildfly /var/lib/aktin
+systemctl daemon-reload
+systemctl enable wildfly
+systemctl start wildfly
+

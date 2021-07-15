@@ -1,0 +1,26 @@
+Template: aktin-notaufnahme/db_local
+Type: boolean
+Default: true
+Description: Is a PostgreSQL Server running locally?
+
+Template: aktin-notaufnahme/db_host
+Type: string
+Default: localhost
+Description: What ist the hostname of your PostgreSQL Server?
+
+Template: aktin-notaufnahme/db_port
+Type: string
+Default: 5432
+Description: On which port does your PostgreSQL Server listen?
+
+Template: aktin-notaufnahme/db_user
+Type: string
+Default: localhost
+Description: What ist the user for your PostgreSQL Server?
+ The user must have privileges to add users and databases.
+
+Template: aktin-notaufnahme/db_pass
+Type: password
+Default: localhost
+Description: What ist the password for your PostgreSQL Server?
+

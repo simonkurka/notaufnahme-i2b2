@@ -1,0 +1,85 @@
+--- a/standalone/configuration/standalone.xml	2019-10-03 09:37:58.000000000 +0200
++++ b/standalone/configuration/standalone.xml	2021-07-12 11:19:56.498276497 +0200
+@@ -38,6 +38,9 @@
+         <extension module="org.wildfly.extension.security.manager"/>
+         <extension module="org.wildfly.extension.undertow"/>
+     </extensions>
++    <system-properties>
++        <property name="jboss.as.management.blocking.timeout" value="900"/>
++    </system-properties>
+     <management>
+         <security-realms>
+             <security-realm name="ManagementRealm">
+@@ -109,6 +112,14 @@
+                 <suffix value=".yyyy-MM-dd"/>
+                 <append value="true"/>
+             </periodic-rotating-file-handler>
++            <size-rotating-file-handler name="srf" autoflush="true" rotate-on-boot="true">
++                <formatter>
++                    <named-formatter name="PATTERN"/>
++                </formatter>
++                <file relative-to="jboss.server.log.dir" path="server.log"/>
++                <rotate-size value="50m"/>
++                <max-backup-index value="64"/>
++            </size-rotating-file-handler>
+             <logger category="com.arjuna">
+                 <level name="WARN"/>
+             </logger>
+@@ -124,8 +135,7 @@
+             <root-logger>
+                 <level name="INFO"/>
+                 <handlers>
+-                    <handler name="CONSOLE"/>
+-                    <handler name="FILE"/>
++                    <handler name="srf"/>
+                 </handlers>
+             </root-logger>
+             <formatter name="PATTERN">
+@@ -158,6 +168,22 @@
+                         <password>sa</password>
+                     </security>
+                 </datasource>
++                <datasource jta="false" jndi-name="java:jboss/datasources/AktinDS" pool-name="AktinDS">
++                    <connection-url>jdbc:postgresql://database:5432/aktin</connection-url>
++                    <driver>postgresql-42.2.8.jar</driver>
++                    <security>
++                        <user-name>aktin</user-name>
++                        <password>aktin</password>
++                    </security>
++                    <validation>
++                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
++                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
++                        <validate-on-match>false</validate-on-match>
++                        <background-validation>true</background-validation>
++                        <background-validation-millis>60000</background-validation-millis>
++                        <use-fast-fail>true</use-fast-fail>
++                    </validation>
++                </datasource>
+                 <drivers>
+                     <driver name="h2" module="com.h2database.h2">
+                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+@@ -166,7 +192,7 @@
+             </datasources>
+         </subsystem>
+         <subsystem xmlns="urn:jboss:domain:deployment-scanner:2.0">
+-            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
++            <deployment-scanner path="deployments" relative-to="jboss.server.base.dir" scan-interval="5000" deployment-timeout="900" runtime-failure-causes-rollback="${jboss.deployment.scanner.rollback.on.failure:false}"/>
+         </subsystem>
+         <subsystem xmlns="urn:jboss:domain:discovery:1.0"/>
+         <subsystem xmlns="urn:jboss:domain:distributable-web:2.0" default-session-management="default" default-single-sign-on-management="default">
+@@ -517,7 +543,7 @@
+     </interfaces>
+     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+         <socket-binding name="ajp" port="${jboss.ajp.port:8009}"/>
+-        <socket-binding name="http" port="${jboss.http.port:8080}"/>
++        <socket-binding name="http" port="${jboss.http.port:9090}"/>
+         <socket-binding name="https" port="${jboss.https.port:8443}"/>
+         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
+         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9993}"/>
+@@ -527,4 +553,4 @@
+             <remote-destination host="localhost" port="25"/>
+         </outbound-socket-binding>
+     </socket-binding-group>
+-</server>
+\ Kein Zeilenumbruch am Dateiende.
++</server>
