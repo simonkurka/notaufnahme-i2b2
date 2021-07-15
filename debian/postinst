@@ -10,8 +10,8 @@ if [[ -n $(grep ";extension=curl" /etc/php/*/apache2/php.ini) ]]; then
 else
 	echo -e "\e[0;33mPHP-curl für apache2 wurde bereits aktiviert.\e[0m"
 fi
-a2enmod proxy_http
-a2enconf aktin-j2ee-reverse-proxy
+a2enmod proxy_http || true
+a2enconf aktin-j2ee-reverse-proxy || true
 service apache2 reload
 
 # count databases with name i2b2
