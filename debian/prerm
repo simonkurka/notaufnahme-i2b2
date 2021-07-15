@@ -1,4 +1,4 @@
 #!/bin/bash
-systemctl stop wildfly
-systemctl disable wildfly
+systemctl stop wildfly || true
+systemctl disable wildfly || true
 
