@@ -16,8 +16,8 @@ service apache2 reload
 
 # count databases with name i2b2
 local PSQL=""
-db_get $PACKAGE/db_local
-if [ "$RET" = "true" ]; then
+db_get $PACKAGE/db_conn
+if [ "$RET" = "unix" ]; then
 	PSQL="sudo -u postgres psql"
 else
 	db_get aktin-notaufnahme/db_host

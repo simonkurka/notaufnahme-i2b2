@@ -1,7 +1,8 @@
-Template: aktin-notaufnahme/db_local
-Type: boolean
-Default: true
-Description: Is a PostgreSQL Server running locally?
+Template: aktin-notaufnahme/db_conn
+Type: select
+Choices: unix, tcp
+Default: unix
+Description: Connect via local unix socket or TCP/IP?
 
 Template: aktin-notaufnahme/db_host
 Type: string

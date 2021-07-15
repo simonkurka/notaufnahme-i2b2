@@ -7,11 +7,14 @@ set -e
 . /usr/share/debconf/confmodule
  
 # Ask questions
-db_input low aktin-notaufnahme/db_local || true
-db_input low aktin-notaufnahme/db_host || true
-db_input low aktin-notaufnahme/db_port || true
-db_input low aktin-notaufnahme/db_user || true
-db_input low aktin-notaufnahme/db_pass || true
+db_input low aktin-notaufnahme/db_conn || true
+
+if [ ! "$RET" = "unix" ]; then
+	db_input low aktin-notaufnahme/db_host || true
+	db_input low aktin-notaufnahme/db_port || true
+	db_input low aktin-notaufnahme/db_user || true
+	db_input low aktin-notaufnahme/db_pass || true
+fi
  
 # Show interface
 db_go || true
