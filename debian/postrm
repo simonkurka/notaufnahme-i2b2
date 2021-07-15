@@ -3,6 +3,7 @@ case "$1" in
   purge)
     sudo -u postgres psql -v ON_ERROR_STOP=1 <<EOF
 __I2B2_DROP__
+
 EOF
     . /usr/share/debconf/confmodule
     db_purge
