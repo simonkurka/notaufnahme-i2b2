@@ -15,7 +15,7 @@ cp $DIR/templates $DBUILD/DEBIAN/
 cp $DIR/config $DBUILD/DEBIAN/
 cp $DIR/postinst $DBUILD/DEBIAN/
 cp $DIR/prerm $DBUILD/DEBIAN/
-sed -e "/^__I2B2_DROP__/{r $DRESOURCES/database/i2b2_postgres_drop.sql" -e 'd;}' $DIR/postrm > $DBUILD/DEBIAN/postrm
+sed -e "/^__I2B2_DROP__/{r $DRESOURCES/database/i2b2_postgres_drop.sql" -e 'd;}' $DIR/postrm > $DBUILD/DEBIAN/postrm && chmod 0755 $DBUILD/DEBIAN/postrm
 
 dpkg-deb --build $DBUILD
 
