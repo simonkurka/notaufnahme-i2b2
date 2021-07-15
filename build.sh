@@ -8,6 +8,7 @@ VPOSTGRES_JDBC=42.2.8
 VWILDFLY=18.0.0.Final
 
 DBUILD=$1
+VERSION=$2
 
 # Directory this script is located in + /resources
 DRESOURCES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/resources"
