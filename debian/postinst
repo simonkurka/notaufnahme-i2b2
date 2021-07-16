@@ -6,13 +6,15 @@ DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
 
 # activate php-curl extension for apache2
 if [[ -n $(grep ";extension=curl" /etc/php/*/apache2/php.ini) ]]; then
-	echo -e "\e[1;33mPHP-curl für apache2 wird aktiviert.\e[0m"
+	echo -e "Enabling apache2 php-curl extension ..."
 	sed -i 's/;extension=curl/extension=curl/' /etc/php/*/apache2/php.ini
 else
-	echo -e "PHP-curl für apache2 wurde bereits aktiviert."
+	echo -e "apache2 php-curl extension already enabled."
 fi
-a2enmod proxy_http || true
-a2enconf aktin-j2ee-reverse-proxy || true
+echo "Enabling apache2 proxy_http module ..."
+a2enmod proxy_http >/dev/null || true
+a2enconf aktin-j2ee-reverse-proxy >/dev/null || true
+echo "Restarting apache2 ..."
 systemctl restart apache2
 
 # count databases with name i2b2
@@ -35,14 +37,10 @@ else
 fi
 
 if  [[ $(eval "$PSQL -l" | grep "i2b2" | wc -l) == 0 ]]; then
-
-	# create database i2b2 and respective users
 	echo -e "Creating i2b2 database and users ..."
-	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_postgres_init.sql" > /dev/null
-
-	# build i2b2 data and load into database
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_postgres_init.sql" >/dev/null
 	echo -e "Seeding i2b2 database ..."
-	eval "$PSQL -d i2b2 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_db.sql" > /dev/null
+	eval "$PSQL -d i2b2 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_db.sql" >/dev/null
 else
 	echo -e "i2b2 database already exists. Skipping ..."
 fi
