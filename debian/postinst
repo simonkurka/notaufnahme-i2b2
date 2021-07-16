@@ -37,11 +37,11 @@ if  [[ $(eval "$PSQL -l" | grep "i2b2" | wc -l) == 0 ]]; then
 
 	# create database i2b2 and respective users
 	echo -e "\e[1;33mEine Datenbank mit Namen i2b2 und entsprechenden Usern wird erstellt.\e[0m"
-	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/i2b2_postgres_init.sql"
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_postgres_init.sql"
 
 	# build i2b2 data and load into database
 	echo -e "\e[1;33mDaten werden in die Datenbank i2b2 eingelesen.\e[0m"
-	eval "$PSQL -d i2b2 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/i2b2_db.sql"
+	eval "$PSQL -d i2b2 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/i2b2_db.sql"
 else
 	echo -e "Die Installation der i2b2-Datenbank wurde bereits durchgeführt."
 fi
