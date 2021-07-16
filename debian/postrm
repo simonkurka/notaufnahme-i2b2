@@ -1,11 +1,38 @@
 #!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
+
+rm -rf /opt/wildfly/standalone/{tmp,configuration,data,log}
+rm -f /opt/wildfly/standalone/deployments/*.{deployed,failed,isdeploying}
+
+# count databases with name i2b2
+PSQL=""
+db_get $DEBCONF_NAME/db_conn
+if [ "$RET" = "unix" ]; then
+	PSQL="sudo -u postgres psql"
+	echo "Connecting to postgres via local unix socket."
+else
+	db_get $DEBCONF_NAME/db_host
+	host="$RET"
+	db_get $DEBCONF_NAME/db_port
+	port="$RET"
+	db_get $DEBCONF_NAME/db_user
+	user="$RET"
+	db_get $DEBCONF_NAME/db_pass
+	pass="$RET"
+	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
+	echo "Connecting to postgres via TCP/IP to $host:$port."
+fi
+
 case "$1" in
   purge)
-    sudo -u postgres psql -v ON_ERROR_STOP=1 <<EOF
+    echo "Dropping I2B2 database ..."
+    eval "$PSQL -v ON_ERROR_STOP=1" <<EOF > /dev/null
 __I2B2_DROP__
 
 EOF
-    . /usr/share/debconf/confmodule
     db_purge
 ;;
 esac

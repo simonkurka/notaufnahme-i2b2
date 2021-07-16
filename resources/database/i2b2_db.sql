@@ -4,6 +4,7 @@
 
 -- dump of i2b2 database (https://community.i2b2.org/wiki/)
 -- but without crc(demo) data and metadata (own data is added instead)
+-- removed CREATE SCHEMA as they are executed in init script --sk
 
 -- Dumped from database version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
 -- Dumped by pg_dump version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
@@ -23,17 +24,11 @@ SET row_security = off;
 -- Name: i2b2crcdata; Type: SCHEMA; Schema: -; Owner: i2b2crcdata
 --
 
-CREATE SCHEMA i2b2crcdata;
-
-
 ALTER SCHEMA i2b2crcdata OWNER TO i2b2crcdata;
 
 --
 -- Name: i2b2hive; Type: SCHEMA; Schema: -; Owner: i2b2hive
 --
-
-CREATE SCHEMA i2b2hive;
-
 
 ALTER SCHEMA i2b2hive OWNER TO i2b2hive;
 
@@ -41,17 +36,11 @@ ALTER SCHEMA i2b2hive OWNER TO i2b2hive;
 -- Name: i2b2imdata; Type: SCHEMA; Schema: -; Owner: i2b2imdata
 --
 
-CREATE SCHEMA i2b2imdata;
-
-
 ALTER SCHEMA i2b2imdata OWNER TO i2b2imdata;
 
 --
 -- Name: i2b2metadata; Type: SCHEMA; Schema: -; Owner: i2b2metadata
 --
-
-CREATE SCHEMA i2b2metadata;
-
 
 ALTER SCHEMA i2b2metadata OWNER TO i2b2metadata;
 
@@ -59,17 +48,11 @@ ALTER SCHEMA i2b2metadata OWNER TO i2b2metadata;
 -- Name: i2b2pm; Type: SCHEMA; Schema: -; Owner: i2b2pm
 --
 
-CREATE SCHEMA i2b2pm;
-
-
 ALTER SCHEMA i2b2pm OWNER TO i2b2pm;
 
 --
 -- Name: i2b2workdata; Type: SCHEMA; Schema: -; Owner: i2b2workdata
 --
-
-CREATE SCHEMA i2b2workdata;
-
 
 ALTER SCHEMA i2b2workdata OWNER TO i2b2workdata;
 
