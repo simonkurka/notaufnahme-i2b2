@@ -59,7 +59,6 @@ echo JBOSS_OPTS=\"-Djboss.http.port=9090 -Djrmboss.as.management.blocking.timeou
 
 sed -i 's/-Xms64m -Xmx512m/-Xms1024m -Xmx2g/' $DBUILD/opt/wildfly/bin/appclient.conf
 sed -i 's/-Xms64m -Xmx512m/-Xms1014m -Xmx2g/' $DBUILD/opt/wildfly/bin/standalone.conf
-sed -i 's|<rotate-size value="50m"/>|<rotate-size value="1g"/>|' $DBUILD/opt/wildfly/bin/standalone.conf
 
 patch -p1 -d $DBUILD/opt/wildfly < $DRESOURCES/standalone.xml.patch
 

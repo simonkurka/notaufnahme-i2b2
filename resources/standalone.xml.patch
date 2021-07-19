@@ -19,7 +19,7 @@
 +                    <named-formatter name="PATTERN"/>
 +                </formatter>
 +                <file relative-to="jboss.server.log.dir" path="server.log"/>
-+                <rotate-size value="50m"/>
++                <rotate-size value="1g"/>
 +                <max-backup-index value="64"/>
 +            </size-rotating-file-handler>
              <logger category="com.arjuna">
