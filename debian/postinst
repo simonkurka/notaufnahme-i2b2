@@ -21,6 +21,8 @@ systemctl restart apache2
 PSQL=""
 db_get $DEBCONF_NAME/db_conn
 if [ "$RET" = "unix" ]; then
+	host="localhost"
+	port="5432"
 	PSQL="sudo -u postgres psql"
 	echo "Connecting to postgres via local unix socket."
 else
@@ -44,6 +46,22 @@ if  [[ $(eval "$PSQL -l" | grep "i2b2" | wc -l) == 0 ]]; then
 else
 	echo -e "i2b2 database already exists. Skipping ..."
 fi
+
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/crc-ds.xml > /opt/wildfly/standalone/deployments/crc-ds.xml
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/im-ds.xml > /opt/wildfly/standalone/deployments/im-ds.xml
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/ont-ds.xml > /opt/wildfly/standalone/deployments/ont-ds.xml
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/pm-ds.xml > /opt/wildfly/standalone/deployments/pm-ds.xml
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/work-ds.xml > /opt/wildfly/standalone/deployments/work-ds.xml
 
 id -u wildfly >/dev/null || adduser --system --group --disabled-login --home /var/lib/wildfly wildfly
 chown -R wildfly:wildfly /opt/wildfly /var/lib/aktin

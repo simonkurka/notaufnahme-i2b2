@@ -66,11 +66,9 @@ patch -p1 -d $DBUILD/opt/wildfly < $DRESOURCES/standalone.xml.patch
 wget https://www.aktin.org/software/repo/org/i2b2/$VI2B2/i2b2.war -P $DBUILD/opt/wildfly/standalone/deployments/
 wget https://jdbc.postgresql.org/download/postgresql-$VPOSTGRES_JDBC.jar -P $DBUILD/opt/wildfly/standalone/deployments/
 
-cp $DRESOURCES/datasource/* $DBUILD/opt/wildfly/standalone/deployments/
-
 #
 # Post-install resources
 #
 mkdir -p $DBUILD/usr/share/$PACKAGE
-cp -r $DRESOURCES/database $DBUILD/usr/share/$PACKAGE/
+cp -r $DRESOURCES/database $DRESOURCES/datasource $DBUILD/usr/share/$PACKAGE/
 

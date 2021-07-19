@@ -25,7 +25,8 @@ case "$1" in
 		systemctl restart apache2 || true
 
 		rm -rf /opt/wildfly/standalone/{tmp,configuration,data,log}
-		rm -f /opt/wildfly/standalone/deployments/*.{deployed,failed,isdeploying}
+		rm -f /opt/wildfly/standalone/deployments/*.{deployed,failed,isdeploying,pending}
+		rm -f /opt/wildfly/standalone/deployments/{crc,im,ont,pm,work}-ds.xml
 		;;
 	purge)
 		DWH_SHARED=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')

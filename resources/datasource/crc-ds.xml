@@ -4,7 +4,7 @@
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
         <datasource jta="false" jndi-name="java:/CRCBootStrapDS"
                 pool-name="CRCBootStrapDS" enabled="true" use-ccm="false">
-                <connection-url>jdbc:postgresql://localhost:5432/i2b2?searchPath=i2b2hive</connection-url>
+                <connection-url>jdbc:postgresql://__HOST__:__PORT__/i2b2?searchPath=i2b2hive</connection-url>
                 <driver-class>org.postgresql.Driver</driver-class>
                 <driver>postgresql-42.2.8.jar</driver>
                 <security>
@@ -26,7 +26,7 @@
 
         <datasource jta="false" jndi-name="java:/QueryToolDemoDS"
                 pool-name="QueryToolDemoDS" enabled="true" use-ccm="false">
-                <connection-url>jdbc:postgresql://localhost:5432/i2b2?searchPath=i2b2crcdata</connection-url>
+                <connection-url>jdbc:postgresql://__HOST__:__PORT__/i2b2?searchPath=i2b2crcdata</connection-url>
                 <driver-class>org.postgresql.Driver</driver-class>
                 <driver>postgresql-42.2.8.jar</driver>
                 <security>
@@ -46,3 +46,4 @@
                 </statement>
         </datasource>
 </datasources>
+
