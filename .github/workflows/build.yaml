@@ -36,7 +36,7 @@ jobs:
       - name: Build and push docker image for ${{ github.job }} [httpd]
         uses: docker/build-push-action@v2
         with:
-          file: docker/build/httpd/Dockerfile
+          context: docker/build/httpd
           build-args: |
             VERSION=${{ steps.prep.outputs.version }}
           tags: |
@@ -46,7 +46,7 @@ jobs:
       - name: Build and push docker image for ${{ github.job }} [database]
         uses: docker/build-push-action@v2
         with:
-          file: docker/build/database/Dockerfile
+          context: docker/build/database
           build-args: |
             VERSION=${{ steps.prep.outputs.version }}
           tags: |
@@ -56,7 +56,7 @@ jobs:
       - name: Build and push docker image for ${{ github.job }} [wildfly]
         uses: docker/build-push-action@v2
         with:
-          file: docker/build/wildfly/Dockerfile
+          context: docker/build/wildfly
           build-args: |
             VERSION=${{ steps.prep.outputs.version }}
           tags: |
