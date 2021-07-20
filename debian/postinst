@@ -64,7 +64,7 @@ sed -e "s/__HOST__/$host/g" \
     /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/work-ds.xml > /opt/wildfly/standalone/deployments/work-ds.xml
 
 id -u wildfly >/dev/null || adduser --system --group --disabled-login --home /var/lib/wildfly wildfly
-chown -R wildfly:wildfly /opt/wildfly /var/lib/aktin
+chown -R wildfly:wildfly /opt/wildfly
 systemctl daemon-reload
 systemctl enable wildfly
 systemctl start wildfly
