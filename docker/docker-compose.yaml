@@ -1,0 +1,11 @@
+services:
+  database:
+    image: ${I2B2IMAGENAMESPACE}database
+    build: ./build/database
+  httpd:
+    image: ${I2B2IMAGENAMESPACE}httpd
+    build: ./build/httpd
+  wildfly:
+    image: ${I2B2IMAGENAMESPACE}wildfly
+    build: ./build/wildfly
+
