@@ -35,29 +35,6 @@
                  </handlers>
              </root-logger>
              <formatter name="PATTERN">
-@@ -158,6 +168,22 @@
-                         <password>sa</password>
-                     </security>
-                 </datasource>
-+                <datasource jta="false" jndi-name="java:jboss/datasources/AktinDS" pool-name="AktinDS">
-+                    <connection-url>jdbc:postgresql://database:5432/aktin</connection-url>
-+                    <driver>postgresql-42.2.8.jar</driver>
-+                    <security>
-+                        <user-name>aktin</user-name>
-+                        <password>aktin</password>
-+                    </security>
-+                    <validation>
-+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
-+                        <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
-+                        <validate-on-match>false</validate-on-match>
-+                        <background-validation>true</background-validation>
-+                        <background-validation-millis>60000</background-validation-millis>
-+                        <use-fast-fail>true</use-fast-fail>
-+                    </validation>
-+                </datasource>
-                 <drivers>
-                     <driver name="h2" module="com.h2database.h2">
-                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
 @@ -166,7 +192,7 @@
              </datasources>
          </subsystem>
