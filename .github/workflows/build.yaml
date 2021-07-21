@@ -17,6 +17,7 @@ jobs:
       - name: Build
         run: debian/build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
       - name: Sign package
+        if: secrets.GPG_SIGNING_KEY != null
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
         run: |
