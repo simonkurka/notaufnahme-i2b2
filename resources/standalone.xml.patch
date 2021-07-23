@@ -44,6 +44,17 @@
          </subsystem>
          <subsystem xmlns="urn:jboss:domain:discovery:1.0"/>
          <subsystem xmlns="urn:jboss:domain:distributable-web:2.0" default-session-management="default" default-single-sign-on-management="default">
+@@ -490,8 +490,8 @@
+         <subsystem xmlns="urn:jboss:domain:undertow:10.0" default-server="default-server" default-virtual-host="default-host" default-servlet-container="default" default-security-domain="other" statistics-enabled="${wildfly.undertow.statistics-enabled:${wildfly.statistics-enabled:false}}">
+             <buffer-cache name="default"/>
+             <server name="default-server">
+-                <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
+-                <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
++                <http-listener name="default" socket-binding="http" max-post-size="1073741824" redirect-socket="https" enable-http2="true"/>
++                <https-listener name="https" socket-binding="https" max-post-size="1073741824" security-realm="ApplicationRealm" enable-http2="true"/>
+                 <host name="default-host" alias="localhost">
+                     <location name="/" handler="welcome-content"/>
+                     <http-invoker security-realm="ApplicationRealm"/>
 @@ -517,7 +543,7 @@
      </interfaces>
      <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
