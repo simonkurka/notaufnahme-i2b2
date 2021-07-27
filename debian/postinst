@@ -49,16 +49,17 @@ else
 fi
 
 WAITCOUNT=0
-while [ ! eval "$PSQL -l" ]; do
+while [ ! systemctl start postgres.service ]; do
 	if [ $WAITCOUNT -lt 12 ]; then
-		echo -e "${BRED}Database not available. Waiting ...${RES}"
+		echo -e "${BRED}Database not yet installed. Waiting ...${RES}"
 		((WAITCOUNT++))
 		sleep 5
 	else
-		echo -e "${BRED}Database not available. Aborting ...${RES}"
+		echo -e "${BRED}Database not yet installed. Aborting ...${RES}"
 		exit 1
 	fi
 done
+systemctl enable postgresql.service
 
 if  [[ $(eval "$PSQL -l" | grep "i2b2" | wc -l) == 0 ]]; then
 	echo -e "Creating i2b2 database and users ..."
